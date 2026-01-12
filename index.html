@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>말꽃 톡톡</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <style>
+        html, body { 
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; 
+            background-color: #f0f0f0; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #app-frame {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            height: 100%; 
+            max-height: 900px;
+            margin: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1); 
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+        }
+        #swiper-container { 
+            width: 100%;
+            flex-grow: 1;
+        }
+        .swiper-wrapper { 
+            height: 100%;
+        }
+        .swiper-slide {
+            height: 100%; 
+            background-color: white; 
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: flex-end; 
+            align-items: center; 
+            padding-bottom: 30px; 
+        }
+        .button-container { 
+            display: flex;
+            gap: 15px; 
+            justify-content: center; 
+            align-items: center;
+        }
+        .next-button, .restart-button, .exit-button { 
+            padding: 15px 40px; 
+            font-size: 18px;
+            font-weight: 600; 
+            background-color: #688b4d; 
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(104, 139, 77, 0.3); 
+            transition: transform 0.2s, box-shadow 0.2s; 
+        }
+        .next-button:active, .restart-button:active, .exit-button:active { 
+            transform: scale(0.95); 
+        }
+    </style>
+</head>
+<body>
+    <div id="app-frame">
+        <div id="swiper-container" class="swiper">
+            <div class="swiper-wrapper"></div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            // 캐시 방지를 위한 고정 버전 번호 (이미지 수정 시 이 번호를 변경하세요)
+            const imageVersion = '?v=2.0';
+            
+            // 첫 장: 스플래시 스크린
+            const splashImage = 'https://onejisun.github.io/malkkot-toktok/images/splash.png' + imageVersion;
+            
+            // 단어 카드 이미지들
+        const words = [
+                { id: 1, text: '사과', image: 'https://onejisun.github.io/malkkot-toktok/images/apple.png' + imageVersion },
+                { id: 2, text: '바나나', image: 'https://onejisun.github.io/malkkot-toktok/images/banana.png' + imageVersion },
+                { id: 3, text: '딸기', image: 'https://onejisun.github.io/malkkot-toktok/images/strawberry.png' + imageVersion },
+                { id: 4, text: '포도', image: 'https://onejisun.github.io/malkkot-toktok/images/grape.png' + imageVersion },
+                { id: 5, text: '수박', image: 'https://onejisun.github.io/malkkot-toktok/images/watermelon.png' + imageVersion },
+                { id: 6, text: '귤', image: 'https://onejisun.github.io/malkkot-toktok/images/tangerine.png' + imageVersion },
+                { id: 7, text: '배', image: 'https://onejisun.github.io/malkkot-toktok/images/pear.png' + imageVersion },
+                { id: 8, text: '복숭아', image: 'https://onejisun.github.io/malkkot-toktok/images/peach.png' + imageVersion },
+                { id: 9, text: '오렌지', image: 'https://onejisun.github.io/malkkot-toktok/images/orange.png' + imageVersion },
+                { id: 10, text: '키위', image: 'https://onejisun.github.io/malkkot-toktok/images/kiwi.png' + imageVersion },
+                { id: 11, text: '참외', image: 'https://onejisun.github.io/malkkot-toktok/images/melon.png' + imageVersion },
+                { id: 12, text: '파인애플', image: 'https://onejisun.github.io/malkkot-toktok/images/pineapple.png' + imageVersion },
+                { id: 13, text: '강아지', image: 'https://onejisun.github.io/malkkot-toktok/images/dog.png' + imageVersion },
+                { id: 14, text: '고양이', image: 'https://onejisun.github.io/malkkot-toktok/images/cat.png' + imageVersion },
+                { id: 15, text: '호랑이', image: 'https://onejisun.github.io/malkkot-toktok/images/tiger.png' + imageVersion },
+                { id: 16, text: '사자', image: 'https://onejisun.github.io/malkkot-toktok/images/lion.png' + imageVersion },
+                { id: 17, text: '코끼리', image: 'https://onejisun.github.io/malkkot-toktok/images/elephant.png' + imageVersion },
+                { id: 18, text: '기린', image: 'https://onejisun.github.io/malkkot-toktok/images/giraffe.png' + imageVersion },
+                { id: 19, text: '토끼', image: 'https://onejisun.github.io/malkkot-toktok/images/rabbit.png' + imageVersion },
+                { id: 20, text: '원숭이', image: 'https://onejisun.github.io/malkkot-toktok/images/monkey.png' + imageVersion },
+                { id: 21, text: '곰', image: 'https://onejisun.github.io/malkkot-toktok/images/bear.png' + imageVersion },
+                { id: 22, text: '돼지', image: 'https://onejisun.github.io/malkkot-toktok/images/pig.png' + imageVersion },
+                { id: 23, text: '닭', image: 'https://onejisun.github.io/malkkot-toktok/images/chicken.png' + imageVersion },
+                { id: 24, text: '병아리', image: 'https://onejisun.github.io/malkkot-toktok/images/chick.png' + imageVersion }
+            ];
+            
+            // 마지막 장: 피드백 페이지 (여러 가능한 파일명 시도)
+            const feedbackImageOptions = [
+                'https://onejisun.github.io/malkkot-toktok/images/feedback.png',
+                'https://onejisun.github.io/malkkot-toktok/images/outro.png',
+                'https://onejisun.github.io/malkkot-toktok/images/end.png'
+            ];
+            const feedbackImage = feedbackImageOptions[0] + imageVersion;
+
+            const swiperContainer = document.getElementById('swiper-container');
+            const swiperWrapper = swiperContainer.querySelector('.swiper-wrapper');
+        let swiper;
+
+            // 슬라이드 생성 함수
+            function createSlide(imageUrl, slideIndex, totalSlides, slideType) {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                slide.style.backgroundColor = 'white';
+                slide.dataset.slideType = slideType;
+                slide.dataset.slideIndex = slideIndex;
+                
+                // 이미지 로드 실패 시 대체 텍스트 컨테이너
+                const fallbackText = document.createElement('div');
+                fallbackText.className = 'fallback-text';
+                fallbackText.style.padding = '40px';
+                fallbackText.style.textAlign = 'center';
+                fallbackText.style.flexGrow = '1';
+                fallbackText.style.display = 'flex';
+                fallbackText.style.flexDirection = 'column';
+                fallbackText.style.justifyContent = 'center';
+                fallbackText.style.alignItems = 'center';
+                
+                if (slideType === 'splash') {
+                    fallbackText.innerHTML = '<h2 style="font-size: 28px; margin-bottom: 20px; color: #688b4d;">말꽃이네</h2><p style="font-size: 18px; color: #666;">단어카드</p>';
+                } else if (slideType === 'feedback') {
+                    fallbackText.innerHTML = '<h2 style="font-size: 24px; margin-bottom: 20px;">🎉 학습 완료! 🎉</h2><p style="font-size: 18px; margin-bottom: 10px;">학습은 어떠셨나요?</p><p style="font-size: 16px; color: #666;">추가 의견이 있다면<br>인스타그램 DM 또는 댓글로 남겨주세요!</p>';
+                } else {
+                    fallbackText.style.display = 'none';
+                }
+                
+                // 이미지 로드 확인
+                const img = new Image();
+                img.onload = function() {
+                    slide.style.backgroundImage = `url('${imageUrl}')`;
+                    if (slideType !== 'splash' && slideType !== 'feedback') {
+                        fallbackText.style.display = 'none';
+                    } else {
+                        // 스플래시나 피드백은 이미지가 로드되면 텍스트 숨김
+                        fallbackText.style.display = 'none';
+                    }
+                };
+                img.onerror = function() {
+                    console.warn('이미지 로드 실패:', imageUrl, 'slideType:', slideType, 'index:', slideIndex);
+                    slide.style.backgroundImage = 'none';
+                    // 스플래시나 피드백은 이미지가 없어도 텍스트 표시
+                    if (slideType === 'splash' || slideType === 'feedback') {
+                        fallbackText.style.display = 'flex';
+                    }
+                };
+                img.src = imageUrl;
+                
+                const buttonContainer = document.createElement('div');
+                buttonContainer.className = 'button-container';
+                
+                const isFirstSlide = slideIndex === 0;
+                const isLastSlide = slideIndex === totalSlides - 1;
+                
+                // 다음 버튼
+                const nextButton = document.createElement('button');
+                nextButton.className = 'next-button';
+                nextButton.style.display = isLastSlide ? 'none' : 'block';
+                if (isFirstSlide) {
+                    nextButton.textContent = '시작하기';
+                } else {
+                    nextButton.textContent = '다음';
+                }
+                nextButton.addEventListener('click', () => {
+                    if (swiper) {
+                        swiper.slideNext();
+                    }
+                });
+                
+                // 처음부터 다시 하기 버튼
+                const restartButton = document.createElement('button');
+                restartButton.className = 'restart-button';
+                restartButton.textContent = '처음부터 다시 하기';
+                restartButton.style.display = isLastSlide ? 'block' : 'none';
+                restartButton.style.visibility = isLastSlide ? 'visible' : 'hidden';
+                restartButton.addEventListener('click', () => {
+                    if (swiper) {
+                        swiper.slideTo(0);
+                    }
+                });
+                
+                // 종료하기 버튼
+                const exitButton = document.createElement('button');
+                exitButton.className = 'exit-button';
+                exitButton.textContent = '종료하기';
+                exitButton.style.display = isLastSlide ? 'block' : 'none';
+                exitButton.style.visibility = isLastSlide ? 'visible' : 'hidden';
+                exitButton.addEventListener('click', () => {
+                    if (confirm('정말 종료하시겠어요?')) {
+                        window.close();
+                    }
+                });
+                
+                buttonContainer.appendChild(nextButton);
+                buttonContainer.appendChild(restartButton);
+                buttonContainer.appendChild(exitButton);
+                
+                slide.appendChild(fallbackText);
+                slide.appendChild(buttonContainer);
+                
+                return slide;
+            }
+
+            // Swiper 초기화
+            function initializeSwiper() {
+                swiperWrapper.innerHTML = '';
+                
+                const totalSlides = words.length + 2; // 스플래시 + 단어들 + 피드백
+                
+                console.log('슬라이드 초기화 시작. 총 슬라이드 수:', totalSlides);
+                console.log('첫 장 이미지:', splashImage);
+                console.log('마지막 장 이미지:', feedbackImage);
+                
+                // 첫 장: 스플래시 스크린
+                const splashSlide = createSlide(splashImage, 0, totalSlides, 'splash');
+                swiperWrapper.appendChild(splashSlide);
+                console.log('첫 장 추가 완료');
+                
+                // 단어 카드들
+                words.forEach((word, index) => {
+                    const slide = createSlide(word.image, index + 1, totalSlides, 'word');
+                    swiperWrapper.appendChild(slide);
+                });
+                console.log('단어 카드 추가 완료:', words.length, '개');
+                
+                // 마지막 장: 피드백 페이지
+                const feedbackSlide = createSlide(feedbackImage, words.length + 1, totalSlides, 'feedback');
+                swiperWrapper.appendChild(feedbackSlide);
+                console.log('마지막 장 추가 완료');
+                
+                console.log('생성된 슬라이드 수:', swiperWrapper.children.length);
+                
+                // Swiper 초기화
+                swiper = new Swiper(swiperContainer, {
+                    loop: false,
+                    allowTouchMove: true,
+                    on: {
+                        slideChange: function() {
+                            updateButtons();
+                        }
+                    }
+                });
+                
+                // 초기 버튼 상태 설정
+                setTimeout(() => {
+                    updateButtons();
+                    console.log('현재 슬라이드 인덱스:', swiper.activeIndex, '/', swiper.slides.length - 1);
+                }, 100);
+            }
+            
+            // 버튼 표시/숨김 업데이트 함수
+            function updateButtons() {
+                if (!swiper) return;
+                
+                const slides = swiper.slides;
+                const currentIndex = swiper.activeIndex;
+                const isLastSlide = currentIndex === slides.length - 1;
+                const isFirstSlide = currentIndex === 0;
+                
+                slides.forEach((slide, index) => {
+                    const nextButton = slide.querySelector('.next-button');
+                    const restartButton = slide.querySelector('.restart-button');
+                    const exitButton = slide.querySelector('.exit-button');
+                    
+                    if (index === currentIndex) {
+                        // 현재 슬라이드
+                        if (isLastSlide) {
+                            // 마지막 페이지 (피드백 페이지)
+                            if (nextButton) nextButton.style.display = 'none';
+                            if (restartButton) {
+                                restartButton.style.display = 'block';
+                                restartButton.style.visibility = 'visible';
+                            }
+                            if (exitButton) {
+                                exitButton.style.display = 'block';
+                                exitButton.style.visibility = 'visible';
+                            }
+                        } else if (isFirstSlide) {
+                            // 첫 페이지 (스플래시 스크린)
+                            if (nextButton) {
+                                nextButton.style.display = 'block';
+                                nextButton.textContent = '시작하기';
+                            }
+                            if (restartButton) restartButton.style.display = 'none';
+                            if (exitButton) exitButton.style.display = 'none';
+                } else {
+                            // 중간 페이지들 (단어 카드)
+                            if (nextButton) {
+                                nextButton.style.display = 'block';
+                                nextButton.textContent = '다음';
+                            }
+                            if (restartButton) restartButton.style.display = 'none';
+                            if (exitButton) exitButton.style.display = 'none';
+                        }
+                    }
+                });
+            }
+
+            initializeSwiper();
+        });
+    </script>
+</body>
+</html>
