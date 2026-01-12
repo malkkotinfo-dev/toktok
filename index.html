@@ -82,8 +82,8 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            // 캐시 방지를 위한 고정 버전 번호 (이미지 수정 시 이 번호를 변경하세요)
-            const imageVersion = '?v=2.0';
+            // 캐시 방지를 위한 버전 번호 (타임스탬프 사용으로 매번 새로고침)
+            const imageVersion = '?v=' + new Date().getTime();
             
             // 첫 장: 스플래시 스크린
             const splashImage = 'https://onejisun.github.io/malkkot-toktok/images/splash.png' + imageVersion;
