@@ -82,8 +82,8 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            // 캐시 방지를 위한 버전 번호 (타임스탬프 사용으로 매번 새로고침)
-            const imageVersion = '?v=' + new Date().getTime();
+            // 캐시 방지를 위한 버전 번호 (타임스탬프 + 랜덤 값으로 강력한 캐시 버스팅)
+            const imageVersion = '?v=' + Date.now() + '&r=' + Math.random().toString(36).substring(7);
             
             // 첫 장: 스플래시 스크린
             const splashImage = 'https://onejisun.github.io/malkkot-toktok/images/splash.png' + imageVersion;
@@ -155,10 +155,14 @@
                     fallbackText.style.display = 'none';
                 }
                 
-                // 이미지 로드 확인
+                // 이미지 로드 확인 (강력한 캐시 버스팅 적용)
                 const img = new Image();
+                // 이미지 URL에 추가 캐시 버스팅 파라미터 추가
+                const imageUrlWithCacheBust = imageUrl + (imageUrl.includes('?') ? '&' : '?') + '_nocache=' + Date.now();
+                
                 img.onload = function() {
-                    slide.style.backgroundImage = `url('${imageUrl}')`;
+                    console.log('✅ 이미지 로드 성공:', imageUrl.split('?')[0], 'slideType:', slideType);
+                    slide.style.backgroundImage = `url('${imageUrlWithCacheBust}')`;
                     if (slideType !== 'splash' && slideType !== 'feedback') {
                         fallbackText.style.display = 'none';
                     } else {
@@ -167,14 +171,17 @@
                     }
                 };
                 img.onerror = function() {
-                    console.warn('이미지 로드 실패:', imageUrl, 'slideType:', slideType, 'index:', slideIndex);
+                    console.error('❌ 이미지 로드 실패:', imageUrl.split('?')[0], 'slideType:', slideType, 'index:', slideIndex);
+                    console.error('전체 URL:', imageUrl);
                     slide.style.backgroundImage = 'none';
                     // 스플래시나 피드백은 이미지가 없어도 텍스트 표시
                     if (slideType === 'splash' || slideType === 'feedback') {
                         fallbackText.style.display = 'flex';
                     }
                 };
-                img.src = imageUrl;
+                // 캐시 무시 옵션과 함께 이미지 로드
+                img.crossOrigin = 'anonymous';
+                img.src = imageUrlWithCacheBust;
                 
                 const buttonContainer = document.createElement('div');
                 buttonContainer.className = 'button-container';
