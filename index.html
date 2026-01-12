@@ -82,45 +82,48 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
+            // 이미지 기본 URL
+            const baseImageUrl = 'https://malkkotinfo-dev.github.io/toktok/images/';
+            
             // 캐시 방지를 위한 버전 번호 (타임스탬프 + 랜덤 값으로 강력한 캐시 버스팅)
             const imageVersion = '?v=' + Date.now() + '&r=' + Math.random().toString(36).substring(7);
             
             // 첫 장: 스플래시 스크린
-            const splashImage = 'https://onejisun.github.io/malkkot-toktok/images/splash.png' + imageVersion;
+            const splashImage = baseImageUrl + 'splash.png' + imageVersion;
             
             // 단어 카드 이미지들
         const words = [
-                { id: 1, text: '사과', image: 'https://onejisun.github.io/malkkot-toktok/images/apple.png' + imageVersion },
-                { id: 2, text: '바나나', image: 'https://onejisun.github.io/malkkot-toktok/images/banana.png' + imageVersion },
-                { id: 3, text: '딸기', image: 'https://onejisun.github.io/malkkot-toktok/images/strawberry.png' + imageVersion },
-                { id: 4, text: '포도', image: 'https://onejisun.github.io/malkkot-toktok/images/grape.png' + imageVersion },
-                { id: 5, text: '수박', image: 'https://onejisun.github.io/malkkot-toktok/images/watermelon.png' + imageVersion },
-                { id: 6, text: '귤', image: 'https://onejisun.github.io/malkkot-toktok/images/tangerine.png' + imageVersion },
-                { id: 7, text: '배', image: 'https://onejisun.github.io/malkkot-toktok/images/pear.png' + imageVersion },
-                { id: 8, text: '복숭아', image: 'https://onejisun.github.io/malkkot-toktok/images/peach.png' + imageVersion },
-                { id: 9, text: '오렌지', image: 'https://onejisun.github.io/malkkot-toktok/images/orange.png' + imageVersion },
-                { id: 10, text: '키위', image: 'https://onejisun.github.io/malkkot-toktok/images/kiwi.png' + imageVersion },
-                { id: 11, text: '참외', image: 'https://onejisun.github.io/malkkot-toktok/images/melon.png' + imageVersion },
-                { id: 12, text: '파인애플', image: 'https://onejisun.github.io/malkkot-toktok/images/pineapple.png' + imageVersion },
-                { id: 13, text: '강아지', image: 'https://onejisun.github.io/malkkot-toktok/images/dog.png' + imageVersion },
-                { id: 14, text: '고양이', image: 'https://onejisun.github.io/malkkot-toktok/images/cat.png' + imageVersion },
-                { id: 15, text: '호랑이', image: 'https://onejisun.github.io/malkkot-toktok/images/tiger.png' + imageVersion },
-                { id: 16, text: '사자', image: 'https://onejisun.github.io/malkkot-toktok/images/lion.png' + imageVersion },
-                { id: 17, text: '코끼리', image: 'https://onejisun.github.io/malkkot-toktok/images/elephant.png' + imageVersion },
-                { id: 18, text: '기린', image: 'https://onejisun.github.io/malkkot-toktok/images/giraffe.png' + imageVersion },
-                { id: 19, text: '토끼', image: 'https://onejisun.github.io/malkkot-toktok/images/rabbit.png' + imageVersion },
-                { id: 20, text: '원숭이', image: 'https://onejisun.github.io/malkkot-toktok/images/monkey.png' + imageVersion },
-                { id: 21, text: '곰', image: 'https://onejisun.github.io/malkkot-toktok/images/bear.png' + imageVersion },
-                { id: 22, text: '돼지', image: 'https://onejisun.github.io/malkkot-toktok/images/pig.png' + imageVersion },
-                { id: 23, text: '닭', image: 'https://onejisun.github.io/malkkot-toktok/images/chicken.png' + imageVersion },
-                { id: 24, text: '병아리', image: 'https://onejisun.github.io/malkkot-toktok/images/chick.png' + imageVersion }
+                { id: 1, text: '사과', image: baseImageUrl + 'apple.png' + imageVersion },
+                { id: 2, text: '바나나', image: baseImageUrl + 'banana.png' + imageVersion },
+                { id: 3, text: '딸기', image: baseImageUrl + 'strawberry.png' + imageVersion },
+                { id: 4, text: '포도', image: baseImageUrl + 'grape.png' + imageVersion },
+                { id: 5, text: '수박', image: baseImageUrl + 'watermelon.png' + imageVersion },
+                { id: 6, text: '귤', image: baseImageUrl + 'tangerine.png' + imageVersion },
+                { id: 7, text: '배', image: baseImageUrl + 'pear.png' + imageVersion },
+                { id: 8, text: '복숭아', image: baseImageUrl + 'peach.png' + imageVersion },
+                { id: 9, text: '오렌지', image: baseImageUrl + 'orange.png' + imageVersion },
+                { id: 10, text: '키위', image: baseImageUrl + 'kiwi.png' + imageVersion },
+                { id: 11, text: '참외', image: baseImageUrl + 'melon.png' + imageVersion },
+                { id: 12, text: '파인애플', image: baseImageUrl + 'pineapple.png' + imageVersion },
+                { id: 13, text: '강아지', image: baseImageUrl + 'dog.png' + imageVersion },
+                { id: 14, text: '고양이', image: baseImageUrl + 'cat.png' + imageVersion },
+                { id: 15, text: '호랑이', image: baseImageUrl + 'tiger.png' + imageVersion },
+                { id: 16, text: '사자', image: baseImageUrl + 'lion.png' + imageVersion },
+                { id: 17, text: '코끼리', image: baseImageUrl + 'elephant.png' + imageVersion },
+                { id: 18, text: '기린', image: baseImageUrl + 'giraffe.png' + imageVersion },
+                { id: 19, text: '토끼', image: baseImageUrl + 'rabbit.png' + imageVersion },
+                { id: 20, text: '원숭이', image: baseImageUrl + 'monkey.png' + imageVersion },
+                { id: 21, text: '곰', image: baseImageUrl + 'bear.png' + imageVersion },
+                { id: 22, text: '돼지', image: baseImageUrl + 'pig.png' + imageVersion },
+                { id: 23, text: '닭', image: baseImageUrl + 'chicken.png' + imageVersion },
+                { id: 24, text: '병아리', image: baseImageUrl + 'chick.png' + imageVersion }
             ];
             
             // 마지막 장: 피드백 페이지 (여러 가능한 파일명 시도)
             const feedbackImageOptions = [
-                'https://onejisun.github.io/malkkot-toktok/images/feedback.png',
-                'https://onejisun.github.io/malkkot-toktok/images/outro.png',
-                'https://onejisun.github.io/malkkot-toktok/images/end.png'
+                baseImageUrl + 'feedback.png',
+                baseImageUrl + 'outro.png',
+                baseImageUrl + 'end.png'
             ];
             const feedbackImage = feedbackImageOptions[0] + imageVersion;
 
